@@ -1,15 +1,13 @@
 import { Fragment, useEffect, useState } from "react";
-import { Dialog, Popover, Tab, Transition } from "@headlessui/react";
+import { Dialog, Tab, Transition } from "@headlessui/react";
 import {
     Bars3Icon,
-    MagnifyingGlassIcon,
     ShoppingBagIcon,
     XMarkIcon,
     PhotoIcon
 } from "@heroicons/react/24/outline";
-import image_centered_icon from '../../image_centered_icon.png';
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Avatar, Button, Menu, MenuItem, TextField } from "@mui/material";
+import { Avatar, Button, Menu, MenuItem } from "@mui/material";
 import { navigation } from "../../Config/navigationMenu.js";
 import AuthModal from "../Auth/AuthModal.jsx";
 import { useDispatch, useSelector } from "react-redux";
@@ -17,7 +15,8 @@ import { deepPurple } from "@mui/material/colors";
 import { getUser, logout } from "../../Redux/Auth/Action.js";
 import { getCart } from "../../Redux/Customers/Cart/Action.js";
 import './index.css'
-import SearchImage from "../SearchImage/SearchImage";
+
+// --- CHÚ Ý: KHÔNG IMPORT LOGO Ở ĐÂY NỮA ---
 
 import ChatIcon from "../Chat/ChatIcon.jsx";
 import ChatWindow from "../Chat/ChatWindow.jsx";
@@ -107,11 +106,6 @@ export default function Navigation() {
     };
     const handleClose = () => {
         setOpenAuthModal(false);
-    };
-
-    const handleCategoryClick = (category, section, item, close) => {
-        navigate(`/${category.id}/${section.id}/${item.id}`);
-        close();
     };
 
     const handleKeyDown = (event) => {
@@ -341,11 +335,12 @@ export default function Navigation() {
 
                             <div className="ml-4 flex lg:ml-0">
                                 <Link to="/">
-                                    <span className="sr-only">Your Company</span>
+                                    <span className="sr-only">Adayroi Laptop</span>
+                                    {/* SỬ DỤNG ĐƯỜNG DẪN TUYỆT ĐỐI TỪ PUBLIC */}
                                     <img
-                                        src={image_centered_icon}
-                                        alt="Laptop Shop icon"
-                                        className="h-12 w-auto"
+                                        src="/logo.png"
+                                        alt="Adayroi Laptop Logo"
+                                        className="h-14 w-auto object-contain"
                                     />
                                 </Link>
                             </div>

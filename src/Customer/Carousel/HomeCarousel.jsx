@@ -2,7 +2,7 @@ import React, {useState, useEffect} from "react";
 import AliceCarousel from "react-alice-carousel";
 import "react-alice-carousel/lib/alice-carousel.css";
 import {useNavigate} from "react-router-dom";
-import api, {API_BASE_URL} from "../../Config/api";
+import {API_BASE_URL} from "../../Config/api";
 import axios from "axios";
 
 const handleDragStart = (e) => e.preventDefault();
@@ -26,13 +26,12 @@ const HomeCarousel = () => {
         };
         fetchCarouselImages();
     }, []);
-    console.log(carouselData);
 
     const items = carouselData.map((item, index) => (
         <img
             key={index}
-            className="w-full h-[15rem] sm:h-[20rem] md:h-[26rem] lg:h-[34rem] object-cover cursor-pointer rounded-md -z-10"
-
+            // --- RESPONSIVE UPDATE: Chỉnh chiều cao ảnh (h-) theo từng màn hình ---
+            className="w-full h-[12rem] sm:h-[18rem] md:h-[26rem] lg:h-[34rem] object-cover cursor-pointer rounded-md -z-10"
             src={item.image}
             alt={`Slide ${index + 1}`}
             onDragStart={handleDragStart}
@@ -53,4 +52,3 @@ const HomeCarousel = () => {
 };
 
 export default HomeCarousel;
-

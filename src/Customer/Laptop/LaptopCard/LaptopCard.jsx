@@ -12,23 +12,26 @@ const LaptopCard = ({laptop}) => {
     }
 
     return (
-        <div onClick={handleNavigate} className='laptopCard max-w-[15rem] w-full border m-3 transition-all cursor-pointer '>
-            <div className="h-[13rem] w-full flex">
+        // --- RESPONSIVE UPDATE: w-full thay vì w-[15rem] ---
+        <div onClick={handleNavigate} className='laptopCard w-full bg-white border rounded-lg overflow-hidden m-0 transition-all cursor-pointer hover:shadow-lg flex flex-col h-full'>
+            <div className="h-[10rem] sm:h-[13rem] w-full flex justify-center items-center p-2 bg-gray-50">
                 <img
-                    className="object-cover object-top w-full h-full"
+                    className="object-contain w-full h-full"
                     src={`${API_BASE_URL}${laptop.imageUrls[0]}`}
                     alt={laptop?.model}
                 />
             </div>
-            <div className="p-4 ">
-                <div className="flex items-center space-x-2">
-                    <p className="text-sm text-gray-500 line-through">{laptop?.price?.toLocaleString('vi-VN')} VND</p>
-                    <span className="text-gray-500 font-bold">-{laptop?.discountPercent?.toLocaleString('vi-VN')}%</span>
+            <div className="p-3 flex flex-col justify-between flex-1">
+                <div>
+                    <div className="flex flex-wrap items-center space-x-2 mb-1">
+                        <p className="text-xs text-gray-500 line-through">{laptop?.price?.toLocaleString('vi-VN')} đ</p>
+                        <span className="text-red-500 text-xs font-bold bg-red-100 px-1 rounded">-{laptop?.discountPercent}%</span>
+                    </div>
+                    <p className="text-black font-bold text-sm sm:text-base mb-1">
+                        {((100-laptop?.discountPercent)*laptop?.price/100)?.toLocaleString('vi-VN')} đ
+                    </p>
                 </div>
-                <p className="text-black-500 font-bold">
-                    {((100-laptop?.discountPercent)*laptop?.price/100)?.toLocaleString('vi-VN')} VND
-                </p>
-                <h4 className="text-lg font-medium text-gray-900">
+                <h4 className="text-xs sm:text-sm font-medium text-gray-900 line-clamp-2" title={laptop?.model}>
                     {laptop?.model}
                 </h4>
             </div>
@@ -37,4 +40,3 @@ const LaptopCard = ({laptop}) => {
 };
 
 export default LaptopCard;
-

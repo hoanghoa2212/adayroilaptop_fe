@@ -12,29 +12,32 @@ const HomeLaptopSection = ({ section, data }) => {
   const slideNext = () => setActiveIndex(activeIndex + 1);
   const syncActiveIndex = ({ item }) => setActiveIndex(item);
 
+  // --- RESPONSIVE UPDATE: Số lượng item hiển thị ---
   const responsive = {
-    0: { items: 2, itemsFit: "contain" },
-    568: { items: 3, itemsFit: "contain" },
-    1024: { items: 5, itemsFit: "contain" },
+    0: { items: 1.5, itemsFit: "contain" },   // Mobile: Hiện 1.5 cái để người dùng biết có thể lướt
+    568: { items: 2.5, itemsFit: "contain" }, // Tablet nhỏ
+    768: { items: 3.5, itemsFit: "contain" }, // Tablet lớn (iPad)
+    1024: { items: 5, itemsFit: "contain" },  // Desktop
   };
 
   const items = data?.slice(0, 10).map((item) => (
-    <div key={item.id} className="p-4">
+    <div key={item.id} className="p-2"> {/* Giảm padding một chút */}
       <HomeLaptopCard laptop={item} />
     </div>
   ));
 
   const hasData = data && data.length > 0;
-  const canSlideNext = hasData && activeIndex < items.length - responsive[1024].items;
+  // Sửa logic nút next dựa trên responsive hiện tại (đơn giản hóa bằng cách check items.length)
+  const canSlideNext = hasData && activeIndex < items.length - 1; 
   const canSlidePrev = hasData && activeIndex > 0;
 
   return (
-    <div className="relative px-4 sm:px-6 lg:px-8">
-      <h2 className="text-2xl font-bold text-gray-900 py-5">{section}</h2>
+    <div className="relative px-2 sm:px-6 lg:px-8">
+      <h2 className="text-xl md:text-2xl font-bold text-gray-900 py-5">{section}</h2>
       {!hasData ? (
         <p className="text-center text-gray-500 py-10">Chưa có dữ liệu</p>
       ) : (
-        <div className="relative border p-5">
+        <div className="relative border p-2 md:p-5 rounded-lg shadow-sm">
           <AliceCarousel
             disableButtonsControls
             disableDotsControls
@@ -53,13 +56,16 @@ const HomeLaptopSection = ({ section, data }) => {
               className="z-50"
               sx={{
                 position: "absolute",
-                top: "8rem",
+                top: "40%", // Căn giữa theo chiều dọc
                 right: "0rem",
-                transform: "translateX(50%) rotate(90deg)",
+                minWidth: "auto", 
+                padding: "8px",
+                borderRadius: "50%",
+                transform: "translate(50%, -50%) rotate(90deg)",
               }}
               aria-label="next"
             >
-              <ArrowForwardIosIcon sx={{ transform: "rotate(-90deg)" }} />
+              <ArrowForwardIosIcon sx={{ transform: "rotate(-90deg)", fontSize: '1rem' }} />
             </Button>
           )}
           {canSlidePrev && (
@@ -69,13 +75,16 @@ const HomeLaptopSection = ({ section, data }) => {
               className="z-50"
               sx={{
                 position: "absolute",
-                top: "8rem",
+                top: "40%",
                 left: "0rem",
-                transform: "translateX(-50%) rotate(90deg)",
+                minWidth: "auto",
+                padding: "8px",
+                borderRadius: "50%",
+                transform: "translate(-50%, -50%) rotate(90deg)",
               }}
               aria-label="previous"
             >
-              <ArrowForwardIosIcon sx={{ transform: "rotate(90deg)" }} />
+              <ArrowForwardIosIcon sx={{ transform: "rotate(90deg)", fontSize: '1rem' }} />
             </Button>
           )}
         </div>

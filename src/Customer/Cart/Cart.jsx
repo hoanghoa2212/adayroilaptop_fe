@@ -28,9 +28,8 @@ const Cart = () => {
         }, 0);
     };
 
-const [totalPrice, setTotalPrice] = useState(0);
-const [totalDiscount, setTotalDiscount] = useState(0);
-const [totalItem, setTotalItem] = useState(0);
+    const [totalPrice, setTotalPrice] = useState(0);
+    const [totalItem, setTotalItem] = useState(0);
 
     useEffect(() => {
         dispatch(getCart(jwt));
@@ -69,21 +68,24 @@ const [totalItem, setTotalItem] = useState(0);
     const totalQuantity = selectedItems.length;
 
     return (
-        <div>
+        <div className="pb-20 lg:pb-0"> {/* Padding bottom để tránh bị footer che mất nội dung */}
             {cart?.length > 0 ? (
-                <div className="lg:grid grid-cols-3 lg:px-16 relative">
-                    <div className="lg:col-span-2 lg:px-5 bg-white">
+                // --- RESPONSIVE UPDATE: Flex col mobile, Grid desktop ---
+                <div className="flex flex-col lg:grid lg:grid-cols-3 lg:px-16 relative gap-6">
+                    
+                    {/* Danh sách sản phẩm */}
+                    <div className="lg:col-span-2 px-2 lg:px-5 bg-white">
                         <div className="space-y-3">
-                            <div className="flex items-center space-x-4">
+                            <div className="flex items-center space-x-4 border-b pb-2 mb-2">
                                 <Checkbox
                                     checked={selectedItems.length === cart.length}
                                     onChange={handleSelectAll}
                                 />
-                                <span>Chọn tất cả</span>
+                                <span className="font-semibold">Chọn tất cả ({cart.length} sản phẩm)</span>
                             </div>
                             {cart.map((item) => (
-                                <div key={item.id} className="flex items-center space-x-4">
-                                    <div className="shrink-0">
+                                <div key={item.id} className="flex items-start space-x-2">
+                                    <div className="shrink-0 pt-4">
                                         <Checkbox
                                             checked={selectedItems.includes(item.id)}
                                             onChange={() => handleCheckboxChange(item.id)}
@@ -96,47 +98,40 @@ const [totalItem, setTotalItem] = useState(0);
                             ))}
                         </div>
                     </div>
-                    <div className="px-5 sticky top-0 h-[100vh] mt-5 lg:mt-0">
-                        <div className="border p-5 bg-white shadow-lg rounded-md">
-                            <div className="space-y-3 font-semibold">
+
+                    {/* Tổng tiền - Sticky bottom trên mobile */}
+                    <div className="px-4 py-4 lg:px-5 fixed bottom-0 left-0 right-0 lg:static lg:h-[100vh] bg-white border-t lg:border-t-0 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)] lg:shadow-none z-20">
+                        <div className="border p-4 bg-white lg:shadow-lg rounded-md">
+                            <div className="space-y-2 font-semibold text-sm sm:text-base">
                                 <div className="flex justify-between">
-                                    <span>Số sản phẩm đã chọn</span>
-                                    <span>{totalQuantity}</span>
+                                    <span>Đã chọn:</span>
+                                    <span>{totalQuantity} sản phẩm</span>
                                 </div>
-                                <div className="flex justify-between">
-                                    <span>Tổng số lượng sản phẩm </span>
-                                    <span>{totalItem}</span>
-                                </div>
-                                <div className="flex justify-between">
-                                    <span>Tổng giá trị</span>
-                                    <span className="font-bold text-xl">
-                                        {totalPrice.toLocaleString("vi-VN")} VND
+                                <div className="flex justify-between items-center">
+                                    <span>Tổng tiền:</span>
+                                    <span className="font-bold text-lg sm:text-xl text-red-600">
+                                        {totalPrice.toLocaleString("vi-VN")} đ
                                     </span>
                                 </div>
-                                {
-
-}
-                                <hr />
                             </div>
 
                             <Button
                                 onClick={handleCheckout}
                                 variant="contained"
                                 type="submit"
-                                sx={{ padding: ".8rem 2rem", marginTop: "2rem", width: "100%" }}
+                                sx={{ padding: ".8rem 2rem", marginTop: "1rem", width: "100%", fontWeight: "bold" }}
                                 disabled={selectedItems.length === 0}
                             >
-                                Mua hàng
+                                Mua Hàng ({totalItem})
                             </Button>
                         </div>
                     </div>
                 </div>
             ) : (
-                <div className="flex w-full justify-center">Không có sản phẩm nào trong giỏ hàng</div>
+                <div className="flex w-full justify-center py-20 text-gray-500">Giỏ hàng của bạn đang trống</div>
             )}
         </div>
     );
 };
 
 export default Cart;
-

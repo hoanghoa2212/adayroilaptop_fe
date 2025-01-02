@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Container, Box, Typography, Avatar, Divider, Button, CircularProgress, Chip } from '@mui/material';
-import { CalendarIcon, ArrowLeftIcon, ClockIcon, UserIcon } from '@heroicons/react/24/outline';
+// Đã thêm EyeIcon vào dòng dưới đây
+import { CalendarIcon, ArrowLeftIcon, ClockIcon, UserIcon, EyeIcon } from '@heroicons/react/24/outline';
 import { useDispatch, useSelector } from 'react-redux';
 import { getPostById } from '../Redux/Post/Action';
 import { API_BASE_URL } from '../Config/api';
@@ -112,7 +113,7 @@ const BlogDetail = () => {
         }}
       >
 
-      {}
+      {/* Hero Banner Section */}
       <Box
         sx={{
           position: 'relative',
@@ -145,7 +146,7 @@ const BlogDetail = () => {
           </>
         )}
 
-        {}
+        {/* Content Overlay */}
         <Container
           maxWidth="lg"
           sx={{
@@ -158,7 +159,7 @@ const BlogDetail = () => {
             px: { xs: 3, md: 4 }
           }}
         >
-          {}
+          {/* Title & Metadata */}
           <Box
             sx={{
               maxWidth: '1000px',
@@ -166,7 +167,7 @@ const BlogDetail = () => {
               textAlign: 'center'
             }}
           >
-            {}
+            {/* Category Tag */}
             <Box display="flex" justifyContent="center" mb={2}>
               <Chip
                 label="Tin tức & Blog"
@@ -183,7 +184,7 @@ const BlogDetail = () => {
               />
             </Box>
 
-            {}
+            {/* Main Title */}
             <Typography
               variant="h3"
               component="h1"
@@ -200,7 +201,7 @@ const BlogDetail = () => {
               {currentPost.title}
             </Typography>
 
-            {}
+            {/* Metadata Row */}
             <Box
               display="flex"
               flexWrap="wrap"
@@ -237,12 +238,21 @@ const BlogDetail = () => {
                   {formattedDate}
                 </Typography>
               </Box>
+
+              {/* --- PHẦN THÊM MỚI: HIỂN THỊ LƯỢT XEM --- */}
+              <Box>
+                <EyeIcon className="h-5 w-5" />
+                <Typography variant="body2" fontWeight={600}>
+                  {currentPost.viewCount || 0} lượt xem
+                </Typography>
+              </Box>
+              {/* -------------------------------------- */}
             </Box>
           </Box>
         </Container>
       </Box>
 
-      {}
+      {/* Main Content Body */}
       <Container maxWidth="lg" sx={{ mt: -8, position: 'relative', zIndex: 1 }}>
         <Box
           sx={{
@@ -252,7 +262,7 @@ const BlogDetail = () => {
             overflow: 'hidden'
           }}
         >
-          {}
+          {/* Author Info Bar (Inside Content) */}
           <Box
             sx={{
               p: 4,
@@ -284,9 +294,9 @@ const BlogDetail = () => {
             </Box>
           </Box>
 
-          {}
+          {/* Article Body */}
           <Box sx={{ p: { xs: 3, md: 6 } }}>
-            {}
+            {/* Short Description Quote */}
             {currentPost.shortDescription && (
               <Box
                 sx={{
@@ -311,7 +321,7 @@ const BlogDetail = () => {
               </Box>
             )}
 
-            {}
+            {/* Rich Text Content */}
             <Box
               className="prose prose-lg max-w-none post-content"
               sx={{
@@ -365,7 +375,7 @@ const BlogDetail = () => {
           </Box>
         </Box>
 
-        {}
+        {/* CTA Footer */}
         <Box
           sx={{
             mt: 8,

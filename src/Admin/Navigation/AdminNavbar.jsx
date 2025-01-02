@@ -9,55 +9,15 @@ import Badge from '@mui/material/Badge';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
-import SearchIcon from '@mui/icons-material/Search';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
-import Avatar from '@mui/material/Avatar';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
-import image_centered_icon from '../../image_centered_icon.png';
 import { Link } from 'react-router-dom';
-const Search = styled('div')(({ theme }) => ({
-  position: 'relative',
-  borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.common.white, 0.15),
-  '&:hover': {
-    backgroundColor: alpha(theme.palette.common.white, 0.25),
-  },
-  marginRight: theme.spacing(2),
-  marginLeft: 0,
-  width: '100%',
-  [theme.breakpoints.up('sm')]: {
-    marginLeft: theme.spacing(3),
-    width: 'auto',
-  },
-}));
 
-const SearchIconWrapper = styled('div')(({ theme }) => ({
-  padding: theme.spacing(0, 2),
-  height: '100%',
-  position: 'absolute',
-  pointerEvents: 'none',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-}));
-
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: 'inherit',
-  '& .MuiInputBase-input': {
-    padding: theme.spacing(1, 1, 1, 0),
-
-    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-    transition: theme.transitions.create('width'),
-    width: '100%',
-    [theme.breakpoints.up('md')]: {
-      width: '20ch',
-    },
-  },
-}));
+// --- CHÚ Ý: KHÔNG CÓ DÒNG IMPORT LOGO Ở ĐÂY NỮA ---
 
 export default function AdminNavbar({ handleSideBarViewInMobile }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -173,16 +133,16 @@ export default function AdminNavbar({ handleSideBarViewInMobile }) {
           >
             <MenuIcon />
           </IconButton>}
-          <Link to="/">
-            <Avatar
-              alt="Laptop Shop"
-              src={image_centered_icon}
-              sx={{ width: 32, height: 32, marginRight: 2 }}
+          
+          {/* SỬ DỤNG ĐƯỜNG DẪN TUYỆT ĐỐI TỪ THƯ MỤC PUBLIC */}
+          <Link to="/" style={{ display: 'flex', alignItems: 'center' }}>
+            <img
+              alt="Adayroi Laptop"
+              src="/logo.png" 
+              style={{ height: 40, width: 'auto', marginRight: 16, objectFit: 'contain' }}
             />
           </Link>
-          {
 
-}
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
             <IconButton
@@ -198,7 +158,6 @@ export default function AdminNavbar({ handleSideBarViewInMobile }) {
           </Box>
         </Toolbar>
       </AppBar>
-
     </Box>
   );
 }

@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { CalendarIcon, UserCircleIcon, ArrowRightIcon } from '@heroicons/react/24/outline';
+// Đã thêm EyeIcon vào dòng dưới đây
+import { CalendarIcon, UserCircleIcon, ArrowRightIcon, EyeIcon } from '@heroicons/react/24/outline';
 import { API_BASE_URL } from '../../Config/api';
 
 const HomeBlogCard = ({ blog }) => {
@@ -23,7 +24,7 @@ const HomeBlogCard = ({ blog }) => {
       onClick={handleNavigate}
       className="cursor-pointer group flex flex-col bg-white rounded-xl overflow-hidden h-full transition-all duration-300 hover:shadow-lg border border-gray-200 hover:border-gray-300"
     >
-      {}
+      {/* Image Container */}
       <div className="h-48 w-full overflow-hidden relative bg-gray-100">
         <img
           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
@@ -32,9 +33,9 @@ const HomeBlogCard = ({ blog }) => {
         />
       </div>
 
-      {}
+      {/* Content */}
       <div className="p-5 flex flex-col flex-1">
-        {}
+        {/* Meta Info (Date, Author, ViewCount) */}
         <div className="flex items-center gap-3 text-xs text-gray-500 mb-3">
           <div className="flex items-center gap-1.5">
             <CalendarIcon className="h-3.5 w-3.5" />
@@ -45,9 +46,17 @@ const HomeBlogCard = ({ blog }) => {
             <UserCircleIcon className="h-3.5 w-3.5" />
             <span>{blog.authorName || "Shop Admin"}</span>
           </div>
+          
+          {/* --- PHẦN THÊM MỚI: HIỂN THỊ LƯỢT XEM --- */}
+          <span className="text-gray-300">•</span>
+          <div className="flex items-center gap-1.5" title="Lượt xem">
+            <EyeIcon className="h-3.5 w-3.5" />
+            <span>{blog.viewCount || 0}</span>
+          </div>
+          {/* -------------------------------------- */}
         </div>
 
-        {}
+        {/* Title */}
         <h3
           className="text-lg font-bold text-gray-900 mb-2 line-clamp-2 group-hover:text-indigo-600 transition-colors leading-snug"
           title={blog.title}
@@ -55,12 +64,12 @@ const HomeBlogCard = ({ blog }) => {
           {blog.title}
         </h3>
 
-        {}
+        {/* Description */}
         <p className="text-sm text-gray-600 line-clamp-3 mb-4 flex-1 leading-relaxed">
           {blog.shortDescription}
         </p>
 
-        {}
+        {/* Read More Link */}
         <div className="flex items-center gap-2 text-indigo-600 text-sm font-semibold group/link">
           <span className="group-hover/link:underline">Đọc tiếp</span>
           <ArrowRightIcon className="h-4 w-4 transition-transform group-hover/link:translate-x-1" />

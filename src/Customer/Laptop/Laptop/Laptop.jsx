@@ -1,37 +1,34 @@
-import { Fragment, useState } from "react";
+// ... (Giữ nguyên các import bên trên)
+// Chú ý: Đảm bảo bạn import đúng đường dẫn như file gốc
+
+import { Fragment, useState, useEffect } from "react";
 import { Dialog, Disclosure, Menu, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
-import {
-  ChevronDownIcon,
-  FunnelIcon,
-  MinusIcon,
-  PlusIcon,
-  Squares2X2Icon,
-} from "@heroicons/react/20/solid";
+import { ChevronDownIcon, FunnelIcon, MinusIcon, PlusIcon, Squares2X2Icon } from "@heroicons/react/20/solid";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import Pagination from "@mui/material/Pagination";
+import { Backdrop, CircularProgress, Slider } from "@mui/material";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 
 import { filters, singleFilter, sortOptions } from "./FilterData";
 import LaptopCard from "../LaptopCard/LaptopCard";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
 import { findLaptops } from "../../../Redux/Admin/Laptop/Action";
-import { Backdrop, CircularProgress, Slider } from "@mui/material";
-import {  useBrand, useCpu, useDiskCapacity, useGpu } from "./hooks";
+import { useBrand, useCpu, useDiskCapacity, useGpu } from "./hooks";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
 export default function Laptop() {
+  // ... (Giữ nguyên toàn bộ logic state, effects, handlers từ dòng 27 đến 145 của file gốc)
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const jwt = localStorage.getItem("jwt");
+  // const jwt = localStorage.getItem("jwt"); // Biến này không dùng trong code gốc
   const param = useParams();
   const { laptop } = useSelector((store) => store);
 
@@ -154,11 +151,7 @@ export default function Laptop() {
       <div>
         {/* Mobile filter dialog */}
         <Transition.Root show={mobileFiltersOpen} as={Fragment}>
-          <Dialog
-            as="div"
-            className="relative z-40 lg:hidden"
-            onClose={setMobileFiltersOpen}
-          >
+          <Dialog as="div" className="relative z-40 lg:hidden" onClose={setMobileFiltersOpen}>
             <Transition.Child
               as={Fragment}
               enter="transition-opacity ease-linear duration-300"
@@ -183,7 +176,7 @@ export default function Laptop() {
               >
                 <Dialog.Panel className="relative ml-auto flex h-full w-full max-w-xs flex-col overflow-y-auto bg-white py-4 pb-12 shadow-xl">
                   <div className="flex items-center justify-between px-4">
-
+                    <h2 className="text-lg font-medium text-gray-900">Bộ lọc</h2>
                     <button
                       type="button"
                       className="-mr-2 flex h-10 w-10 items-center justify-center rounded-md bg-white p-2 text-gray-400"
@@ -194,27 +187,18 @@ export default function Laptop() {
                     </button>
                   </div>
 
-                  {}
+                  {/* FORM BỘ LỌC CHO MOBILE (Copy y nguyên logic form desktop xuống đây) */}
                   <form className="mt-4 border-t border-gray-200">
+                    {/* Render các filter giống desktop nhưng trong Dialog */}
                     {filters.map((section) => (
-                      <Disclosure
-                        as="div"
-                        key={section.id}
-                        className="border-t border-gray-200 px-4 py-6"
-                      >
+                      <Disclosure as="div" key={section.id} className="border-t border-gray-200 px-4 py-6">
                         {({ open }) => (
                           <>
                             <h3 className="-mx-2 -my-3 flow-root">
                               <Disclosure.Button className="flex w-full items-center justify-between bg-white px-2 py-3 text-gray-400 hover:text-gray-500">
-                                <span className="font-medium text-gray-900">
-                                  {section.name}
-                                </span>
+                                <span className="font-medium text-gray-900">{section.name}</span>
                                 <span className="ml-6 flex items-center">
-                                  {open ? (
-                                    <MinusIcon className="h-5 w-5" aria-hidden="true" />
-                                  ) : (
-                                    <PlusIcon className="h-5 w-5" aria-hidden="true" />
-                                  )}
+                                  {open ? <MinusIcon className="h-5 w-5" aria-hidden="true" /> : <PlusIcon className="h-5 w-5" aria-hidden="true" />}
                                 </span>
                               </Disclosure.Button>
                             </h3>
@@ -231,10 +215,7 @@ export default function Laptop() {
                                       className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
                                       onChange={() => handleFilter(option.value, section.id)}
                                     />
-                                    <label
-                                      htmlFor={`filter-mobile-${section.id}-${optionIdx}`}
-                                      className="ml-3 min-w-0 flex-1 text-gray-500"
-                                    >
+                                    <label htmlFor={`filter-mobile-${section.id}-${optionIdx}`} className="ml-3 min-w-0 flex-1 text-gray-500">
                                       {option.label}
                                     </label>
                                   </div>
@@ -245,6 +226,7 @@ export default function Laptop() {
                         )}
                       </Disclosure>
                     ))}
+                    {/* ... (Bạn có thể copy thêm các phần filter khác như Price, CPU, RAM vào đây nếu muốn hiển thị trên mobile) */}
                   </form>
                 </Dialog.Panel>
               </Transition.Child>
@@ -252,10 +234,10 @@ export default function Laptop() {
           </Dialog>
         </Transition.Root>
 
-        <main className="mx-auto px-4 lg:px-14 ">
-          <div className="flex items-baseline justify-between border-b border-gray-200 pb-6">
-            <h1 className="text-2xl font-bold tracking-tight text-gray-900">
-              Bộ lọc tìm kiếm
+        <main className="mx-auto px-2 md:px-4 lg:px-14">
+          <div className="flex items-baseline justify-between border-b border-gray-200 pb-6 pt-6">
+            <h1 className="text-xl md:text-2xl font-bold tracking-tight text-gray-900">
+              Sản phẩm
             </h1>
 
             <div className="flex items-center">
@@ -287,9 +269,7 @@ export default function Laptop() {
                             <p
                               onClick={() => handleSortChange(option.query)}
                               className={classNames(
-                                option.current
-                                  ? "font-medium text-gray-900"
-                                  : "text-gray-500",
+                                option.current ? "font-medium text-gray-900" : "text-gray-500",
                                 active ? "bg-gray-100" : "",
                                 "block px-4 py-2 text-sm cursor-pointer"
                               )}
@@ -306,13 +286,6 @@ export default function Laptop() {
 
               <button
                 type="button"
-                className="-m-2 ml-5 p-2 text-gray-400 hover:text-gray-500 sm:ml-7"
-              >
-                <span className="sr-only">View grid</span>
-                <Squares2X2Icon className="h-5 w-5" aria-hidden="true" />
-              </button>
-              <button
-                type="button"
                 className="-m-2 ml-4 p-2 text-gray-400 hover:text-gray-500 sm:ml-6 lg:hidden"
                 onClick={() => setMobileFiltersOpen(true)}
               >
@@ -323,14 +296,12 @@ export default function Laptop() {
           </div>
 
           <section aria-labelledby="laptops-heading" className="pb-24 pt-6">
-            <h2 id="laptops-heading" className="sr-only">
-              Laptops
-            </h2>
-            <div>
-              <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-5">
-                {}
-                <form className="hidden lg:block border rounded-md p-5">
-                  {filters.map((section) => (
+            <h2 id="laptops-heading" className="sr-only">Laptops</h2>
+            <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-5">
+              {/* Desktop Filters */}
+              <form className="hidden lg:block border rounded-md p-5 h-fit sticky top-20 overflow-y-auto max-h-[90vh]">
+                 {/* ... (Giữ nguyên code form desktop từ file gốc, chỉ thêm sticky để cuộn theo) ... */}
+                 {filters.map((section) => (
                     <Disclosure as="div" key={section.id} className="border-b border-gray-200 py-6" >
                       {({ open }) => (
                         <>
@@ -588,30 +559,27 @@ export default function Laptop() {
                         </>
                       )}
                     </Disclosure>
-                </form>
+              </form>
 
-                {}
-                <div className="lg:col-span-4 w-full ">
-
-                  <div className="grid grid-cols-5 gap-3 bg-white border py-5 rounded-md ">
-                    {laptopList.map((item) => (
-                      item.status === 1 && <LaptopCard key={item.id} laptop={item} />
-                    ))}
-                  </div>
+              {/* Product Grid */}
+              <div className="lg:col-span-4 w-full">
+                {/* --- RESPONSIVE UPDATE: Grid 2 cột trên mobile, 3 trên tablet, 4-5 trên desktop --- */}
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-2 md:gap-4 bg-white py-5 rounded-md">
+                  {laptopList.map((item) => (
+                    item.status === 1 && <LaptopCard key={item.id} laptop={item} />
+                  ))}
                 </div>
               </div>
             </div>
           </section>
         </main>
 
-        {}
-        <section className="w-full px-[3.6rem]">
+        <section className="w-full px-4 lg:px-[3.6rem] mb-10">
           <div className="mx-auto px-4 py-5 flex justify-center shadow-lg border rounded-md">
             <Pagination
               count={totalPages}
               page={pageNumber}
               color="primary"
-              className=""
               onChange={handlePaginationChange}
             />
           </div>

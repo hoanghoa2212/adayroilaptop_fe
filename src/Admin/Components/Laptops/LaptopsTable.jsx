@@ -23,6 +23,7 @@ import { API_BASE_URL } from "../../../Config/api";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 
+// ... (Giữ nguyên component ModelUpdate) ...
 const ModelUpdate = (props) => {
   return (
     <Modal
@@ -39,8 +40,7 @@ const ModelUpdate = (props) => {
         backdropFilter: "blur(5px)"
       }}
     >
-      <Box className="relative rounded-md bg-black border border-gray-700 shadow-2xl" sx={{width: '90%', maxWidth: '1200px'}}>
-        {}
+      <Box className="relative rounded-md bg-black border border-gray-700 shadow-2xl w-full max-w-[1200px] max-h-[90vh] flex flex-col">
         <div className="absolute top-2 right-2 z-50">
             <IconButton
                 onClick={props.handleClose}
@@ -59,15 +59,9 @@ const ModelUpdate = (props) => {
 
         <Box
           sx={{
-            maxHeight: "90vh",
             overflowY: "auto",
-            scrollbarWidth: "none",
-            msOverflowStyle: "none",
             padding: 0,
-            boxSizing: "border-box",
-            "&::-webkit-scrollbar": {
-              display: "none",
-            },
+            flex: 1
           }}
         >
           <UpdateLaptopForm id={props.id} />
@@ -83,18 +77,16 @@ const LaptopsTable = () => {
   const dispatch = useDispatch();
   const { laptop } = useSelector((store) => store);
 
+  // ... (Giữ nguyên logic searchParams, state, useEffect, handlers) ...
   const searchParams = new URLSearchParams(location.search);
   const availability = searchParams.get("availability");
   const category = searchParams.get("category");
   const sortPrice = searchParams.get("sortPrice");
-
   const pageNumber = parseInt(searchParams.get("page") || "1", 10);
-
   const [open, setOpen] = useState(false);
   const [update, setUpdate] = useState(null);
 
   const handlePaginationChange = (event, value) => {
-
     searchParams.set("page", value);
     const query = searchParams.toString();
     navigate({ search: `?${query}` });
@@ -112,7 +104,6 @@ const LaptopsTable = () => {
       minPrice: 0,
       minDiscount: 0,
       sortPrice: sortPrice || "increase",
-
       page: pageNumber,
       pageSize: 10,
       stock: availability,
@@ -148,11 +139,13 @@ const LaptopsTable = () => {
             "& .MuiCardHeader-action": { mt: 0.6 },
           }}
         />
-        <TableContainer>
+        
+        {/* --- RESPONSIVE UPDATE: Thêm TableContainer với scroll ngang --- */}
+        <TableContainer sx={{ overflowX: 'auto' }}> 
           <Table sx={{ minWidth: 800 }} aria-label="table in dashboard">
             <TableHead>
               <TableRow>
-                <TableCell></TableCell>
+                <TableCell>Hình ảnh</TableCell>
                 <TableCell>Mẫu laptop</TableCell>
                 <TableCell sx={{ textAlign: "center" }}>Hạng mục</TableCell>
                 <TableCell sx={{ textAlign: "center" }}>Giá</TableCell>
@@ -173,12 +166,13 @@ const LaptopsTable = () => {
                       <Avatar
                         alt={item.model}
                         src={item.imageUrls && item.imageUrls.length > 0 ? `${API_BASE_URL}${item.imageUrls[0]}` : ""}
+                        variant="rounded"
                       />
                     </TableCell>
 
                     <TableCell sx={{ py: (theme) => `${theme.spacing(0.5)} !important` }}>
                       <Box sx={{ display: "flex", flexDirection: "column" }}>
-                        <Typography sx={{ fontWeight: 500, fontSize: "0.875rem !important" }}>
+                        <Typography sx={{ fontWeight: 500, fontSize: "0.875rem !important", whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: '200px' }}>
                           {item.model}
                         </Typography>
                         <Typography variant="caption">{item.brandName}</Typography>
@@ -188,14 +182,14 @@ const LaptopsTable = () => {
                       {item?.categories && item.categories.length > 0 ? item.categories[0].name : "N/A"}
                     </TableCell>
                     <TableCell sx={{ textAlign: "center" }}>
-                      {item.price?.toLocaleString('vi-VN')} VND
+                      {item.price?.toLocaleString('vi-VN')}
                     </TableCell>
                     <TableCell sx={{ textAlign: "center" }}>
                       {item?.laptopColors && item.laptopColors.length > 0 ? item.laptopColors[0].quantity : 0}
                     </TableCell>
 
                     <TableCell sx={{ textAlign: "center" }}>
-                      <Button variant="text" onClick={() => handleUpdate(item.id)}>
+                      <Button variant="text" size="small" onClick={() => handleUpdate(item.id)}>
                         Sửa
                       </Button>
                     </TableCell>
@@ -204,6 +198,7 @@ const LaptopsTable = () => {
                         className={`${item.status === 0 ? "!hidden" : ""}`}
                         variant="text"
                         color="error"
+                        size="small"
                         onClick={() => handleDeleteLaptop(item.id)}
                       >
                         Xóa
@@ -230,6 +225,7 @@ const LaptopsTable = () => {
             color="primary"
             page={pageNumber}
             onChange={handlePaginationChange}
+            size="small" // Thu nhỏ pagination trên mobile
           />
         </div>
       </Card>
