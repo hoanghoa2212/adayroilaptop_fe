@@ -67,6 +67,7 @@ export const findLaptopById = (reqData) => async (dispatch) => {
   }
 };
 
+// --- ĐÃ SỬA LỖI TẠI ĐÂY ---
 export const findLaptops = (reqData) => async (dispatch) => {
   const {
     gpuIds,
@@ -90,20 +91,30 @@ export const findLaptops = (reqData) => async (dispatch) => {
     const queryParams = new URLSearchParams();
 
     if (gpuIds) queryParams.append("gpuIds", gpuIds.join(","));
+    
+    // Sửa lỗi Disk Capacity (nếu minDisk là 0)
     if (diskCapacity) {
-      queryParams.append("minDiskCapacity", diskCapacity[0]);
-      queryParams.append("maxDiskCapacity", diskCapacity[1]);
+      if(diskCapacity[0] !== undefined && diskCapacity[0] !== null) queryParams.append("minDiskCapacity", diskCapacity[0]);
+      if(diskCapacity[1] !== undefined && diskCapacity[1] !== null) queryParams.append("maxDiskCapacity", diskCapacity[1]);
     }
+
     if (brandId) queryParams.append("brandId", brandId);
-    if (minRamMemory) queryParams.append("minRamMemory", minRamMemory);
     if (cpuId) queryParams.append("cpuId", cpuId);
-    if (maxRamMemory) queryParams.append("maxRamMemory", maxRamMemory);
-    if (minPrice) queryParams.append("minPrice", minPrice);
-    if (maxPrice) queryParams.append("maxPrice", maxPrice);
+
+    // Sửa lỗi RAM (nếu ram là 0 - ít gặp nhưng an toàn)
+    if (minRamMemory !== undefined && minRamMemory !== null) queryParams.append("minRamMemory", minRamMemory);
+    if (maxRamMemory !== undefined && maxRamMemory !== null) queryParams.append("maxRamMemory", maxRamMemory);
+
+    // Sửa lỗi Giá (nếu minPrice là 0)
+    if (minPrice !== undefined && minPrice !== null) queryParams.append("minPrice", minPrice);
+    if (maxPrice !== undefined && maxPrice !== null) queryParams.append("maxPrice", maxPrice);
+
     if (color) queryParams.append("colors", color);
     if (category) queryParams.append("category", category);
     if (sortPrice) queryParams.append("sortPrice", sortPrice);
-    if (stock) queryParams.append("stockStatus", stock);
+    
+    // Sửa lỗi Stock (nếu stock là 0)
+    if (stock !== undefined && stock !== null) queryParams.append("stockStatus", stock);
 
     if (page !== undefined && page !== null) queryParams.append("page", page);
     if (size !== undefined) queryParams.append("size", size);
@@ -123,6 +134,7 @@ export const findLaptops = (reqData) => async (dispatch) => {
     });
   }
 };
+// --- HẾT PHẦN SỬA ---
 
 export const createLaptop = (laptop) => async (dispatch) => {
   try {
