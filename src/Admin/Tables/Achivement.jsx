@@ -29,7 +29,7 @@ const Achivement = () => {
     <Card className='h-full' sx={{ position: 'relative' }}>
       <CardContent>
         <Typography variant='h6' sx={{ letterSpacing: '0.25px' }}>
-          Laptop_Shop
+          ADAYROILAPTOP
         </Typography>
         <Typography variant='body2' >Congratulations 🥳</Typography>
 

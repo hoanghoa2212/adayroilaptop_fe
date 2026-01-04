@@ -11,6 +11,9 @@ import 'katex/dist/katex.min.css';
 import stompService from './Config/stompClient';
 import { receiveMessage } from './Redux/Chat/Action';
 
+// 1. IMPORT COMPONENT MỚI Ở ĐÂY
+import ScrollToTop from './ScrollToTop'; 
+
 function App() {
   const { auth } = useSelector(store => store);
   const dispatch = useDispatch();
@@ -65,6 +68,9 @@ function App() {
 
   return (
     <div className="relative">
+      {/* 2. ĐẶT COMPONENT VÀO ĐÂY */}
+      <ScrollToTop /> 
+      
       <Routes>
         <Route path="/*" element={<CustomerRoutes />} />
         {auth.user?.role === "ADMIN" && <Route path="/admin/*" element={<AdminPanel />} />}
